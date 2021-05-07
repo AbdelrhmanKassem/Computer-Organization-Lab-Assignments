@@ -1,0 +1,58 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 17-Dec-20 05:46:21 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000  363C 0008                 11      MOVE    #8,D3       moves the number 8 to D3 to be used in the loop
+00001004                            12  
+00001004                            13  OUTERLOOP
+00001004  43F9 00001034             14      LEA     LIST,A1     load the list location into address register 1 
+0000100A  5303                      15      SUB.B   #1,D3       subtracts 1 from the loop counter
+0000100C  6700 001C                 16      BEQ     DONE        if loop is over go to done
+00001010  383C 0008                 17      MOVE    #8,D4       moves 8 to D3 to be used as inner loop counter
+00001014                            18  INNERLOOP
+00001014  1219                      19      MOVE.B  (A1)+,D1    moves a list item to D1
+00001016  1411                      20      MOVE.B  (A1),D2     moves the next item to D2
+00001018  B401                      21      CMP.B   D1,D2       compare the 2 selected items
+0000101A  6B00 0008                 22      BMI     NOSWAP      if D2>D1 the don't swap them
+0000101E  1281                      23      MOVE.B  D1,(A1)     this line and the next line are used to
+00001020  1302                      24      MOVE.B  D2,-(A1)    swap the two selected items in the list
+00001022  5489                      25      ADDA.L  #2,A1       adds 2 to A1 to negate the subtraction in the last step
+00001024                            26  NOSWAP
+00001024  5304                      27      SUB.B   #1,D4       subtracts 1 from the inner loop counter
+00001026  67DC                      28      BEQ     OUTERLOOP   if inner loop is done then restart the outer loop
+00001028  60EA                      29      BRA     INNERLOOP   else re-enter the inner loop
+0000102A                            30    
+0000102A                            31  
+0000102A                            32  DONE
+0000102A  43F9 00001034             33      LEA     LIST,A1     load the list location back into address register 1
+00001030                            34      
+00001030                            35  
+00001030  FFFF FFFF                 36      SIMHALT             ; halt simulator
+00001034                            37  
+00001034                            38  * Put variables and constants here
+00001034= 01 02 05 04 08 05 ...     39  LIST DC.B   1,2,5,4,8,5,4,2     the list
+0000103C                            40      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DONE                102A
+INNERLOOP           1014
+LIST                1034
+NOSWAP              1024
+OUTERLOOP           1004
+START               1000

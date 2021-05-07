@@ -1,0 +1,74 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 17-Dec-20 05:39:50 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000  43F9 0000105C             11          LEA     MESSAGE,A1  load A1 with mem location assinged to MESSAGE
+00001006  103C 000E                 12          MOVE.B  #14,D0      puts 14 into D0 to call task 14 in TRAP #15
+0000100A  4E4F                      13          TRAP    #15         Displays MESSAGE
+0000100C  103C 0002                 14          MOVE.B  #2,D0       puts 2 into D0 to call task 2 in TRAP #15
+00001010  4E4F                      15          TRAP    #15         Takes user input and stores it in a memory location
+00001012                            16                          ;and stores that location in A1
+00001012  247C 00001088             17          MOVEA.L #RESULT,A2     move the address of the assigned storage to A2
+00001018                            18  NEXT
+00001018  1019                      19          MOVE.B  (A1)+,D0    move the first bit in the string to D0 and move to the next bit
+0000101A  1211                      20          MOVE.B  (A1),D1     moves the second bit in the string to D1
+0000101C  B03C 0020                 21          CMP.B   #$20,D0     checks if the bit is a space
+00001020  6700 000E                 22          BEQ     SPACE       branch to SPACE
+00001024  B03C 0000                 23          CMP.B   #$00,D0     checks if the bit is the end charachter
+00001028  6700 001E                 24          BEQ     DONE        brach to DONE
+0000102C  14C0                      25          MOVE.B  D0,(A2)+    if the bit is not a space and not the end character moves it to the new string
+0000102E  60E8                      26          BRA NEXT            moves to the next characters
+00001030                            27          
+00001030                            28  SPACE
+00001030  B23C 0020                 29          CMP.B   #$20,D1     checks if the next bit is also a space (I.E. two consicutive spaces)
+00001034  67E2                      30          BEQ     NEXT        moves to the next bit
+00001036  B23C 0000                 31          CMP.B   #$00,D1     checks if the end character is after a space
+0000103A  6700 0006                 32          BEQ     ENDSPACE    brach to ENDSPACE
+0000103E  14C0                      33          MOVE.B  D0,(A2)+    move the space character to the new string
+00001040  60D6                      34          BRA     NEXT        moves on to the next character
+00001042                            35  
+00001042                            36  ENDSPACE   
+00001042  3481                      37          MOVE    D1,(A2)     moves the end character to the new string
+00001044  6000 0002                 38          BRA     DONE        brach to DONE
+00001048                            39  
+00001048                            40  
+00001048                            41  DONE
+00001048  14BC 0000                 42          MOVE.B  #$00,(A2)   moves an end character to the new string
+0000104C  227C 00001088             43          MOVEA.L #RESULT,A1     moves the mem address to A1 to be printed out
+00001052  103C 000E                 44          MOVE.B  #14,D0      puts 14 into D0 to call task 2 in TRAP #15
+00001056  4E4F                      45          TRAP    #15         displays the new string
+00001058  FFFF FFFF                 46      SIMHALT             ; halt simulator
+0000105C                            47  
+0000105C                            48  * Put variables and constants here
+0000105C  =0000000D                 49  CR      EQU     $0D      ASCII code for Carriage Return
+0000105C  =0000000A                 50  LF      EQU     $0A      ASCII code for Line Feed
+0000105C= 45 6E 74 65 72 20 ...     51  MESSAGE DC.B    'Enter the string with excess spaces below' , CR,LF,0 
+00001088                            52  RESULT  DS.B    1024     Defines 1024 of mem storage to store the new string
+00001488                            53          END     START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+CR                  D
+DONE                1048
+ENDSPACE            1042
+LF                  A
+MESSAGE             105C
+NEXT                1018
+RESULT              1088
+SPACE               1030
+START               1000

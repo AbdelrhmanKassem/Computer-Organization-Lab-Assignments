@@ -1,0 +1,57 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 17-Dec-20 05:42:51 AM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000  323C 0000                 11      MOVE #0,D1      Clears D1 for addition
+00001004  103A 0032                 12      MOVE.B P(PC),D0 Moves 6 to D0
+00001008  D200                      13      ADD.B D0,D1     Adds 6 to D1 
+0000100A  103A 002D                 14      MOVE.B Q(PC),D0 Moves 4 to D0
+0000100E  D200                      15      ADD.B D0,D1     Adds 4 to D1
+00001010  103A 0028                 16      MOVE.B R(PC),D0 Moves 12 to D0
+00001014  D200                      17      ADD.B D0,D1     Adds 12 to D1
+00001016  103A 0023                 18      MOVE.B S(PC),D0 Moves 16 to D0
+0000101A  D200                      19      ADD.B D0,D1     Adds 16 to D1
+0000101C  103A 001E                 20      MOVE.B T(PC),D0 Moves 17 to D0
+00001020  D200                      21      ADD.B D0,D1     Adds 17 to D1
+00001022  103A 0019                 22      MOVE.B U(PC),D0 Moves 50 to D0
+00001026  D200                      23      ADD.B D0,D1     Adds 50 to D1
+00001028  13C1 0000103E             24      MOVE.B D1,RESULT    Move the result to memory address RESULT (can't use relative addressing in distination)
+0000102E  103C 0003                 25      MOVE.B #3,D0    Moves 3 to D0 to use task no. 3 from TRAP#15
+00001032  4E4F                      26      TRAP #15        displays the number in D1.L
+00001034  FFFF FFFF                 27      SIMHALT             ; halt simulator
+00001038                            28  
+00001038                            29  * Put variables and constants here
+00001038= 06                        30  P   DC.B    6       Defines constant P and puts it as 6
+00001039= 04                        31  Q   DC.B    4       Defines constant Q and puts it as 4
+0000103A= 0C                        32  R   DC.B    12      Defines constant R and puts it as 12
+0000103B= 10                        33  S   DC.B    16      Defines constant S and puts it as 16
+0000103C= 11                        34  T   DC.B    17      Defines constant T and puts it as 17
+0000103D= 32                        35  U   DC.B    50      Defines constant U and puts it as 50
+0000103E                            36  RESULT DS.B 1       Defines a byte storage to the result
+0000103F                            37      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+P                   1038
+Q                   1039
+R                   103A
+RESULT              103E
+S                   103B
+START               1000
+T                   103C
+U                   103D
